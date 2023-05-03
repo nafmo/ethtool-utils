@@ -8,7 +8,7 @@
 #include <sys/socket.h>
 #include <sys/ioctl.h>
 #include <net/if.h>
-       
+
 int main(int argc, char *argv[])
 {
    if (argc < 1)
@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
       /* Set up command structure */
       ifreq ifr;
       memset(&ifr, 0, sizeof ifr);
-      
+
       /* Select device */
       strcpy(ifr.ifr_name, iface);
 
@@ -68,12 +68,12 @@ int main(int argc, char *argv[])
       }
       else
       {
-         printf("ioctl() did not return any data");
+         printf("ioctl() did not return any data\n");
       }
 
       ++ argv;
    }
    close(fd);
 
-   return 0;   
+   return 0;
 }
