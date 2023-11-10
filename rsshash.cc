@@ -94,9 +94,13 @@ int main(int argc, char *argv[])
             bool valid_key = true;
             ++ argv; /* Consume parameter */
             erxfhp->cmd = ETHTOOL_SRSSH; /* Set RX flow hash */
-            /* Keep the indirection table (will write it back, we could
-             * consider using ETH_RXFH_INDIR_NO_CHANGE, but I am unsure
-             * how to align the data in this case). */
+            /* Do not change the indirection table, to avoid trampling
+             * users that set it concurrently. */
+            erxfhp->indir_size = ETH_RXFH_INDIR_NO_CHANGE;
+
+            /* Without the indirection table, the key comes directly
+             * at the start of the data block */
+            key = reinterpret_cast<uint8_t*>(erxfhp->rss_config);
 
             /* We know the length of the key is correct, now check
              * syntax */
